@@ -1,0 +1,127 @@
+kermt: Redis Module ToolKit
+===========================
+
+About
+-----
+Welcome to the simplest Redis Add-on Module (RAM).
+
+You can use this project as a template for your custom
+Redis commands.
+
+Disclaimers:
+
+  - Redis is single threaded for all command processing.
+  - While Redis is inside your command function, nothing else runs.
+  - Your command should operate and return as quickly as possible.  See existing
+  Redis commands in the main `redisCommandTable[]` at the top of redis.c for
+  examples of how to write different Redis commands.
+  - Make sure to release objects and free memory you allocate. You will
+  introduce memory leaks if you forget to free things.
+  - You don't have to write in C. You can use C, C++, Go (?), or anything else
+  generating a shared library with C symbols for your operating system.  You
+  can even link additional libraries (want numerical routines?  embedded
+  sqlite3?  embedded snappy/zippy?  embedded geos?  embedded C json parser?)
+
+
+Writing Your Module
+-------------------
+To write your module: start out with the simple module provided in this repository
+and modify commands, functions, fields, and structs as needed.
+
+You will need to study the existing Redis source to learn how existing Redis
+commands work.
+
+Also see the notes at [Dynamic Redis: Use Command Modules](https://matt.sh/dynamic-redis#_use-command-modules).
+
+Building
+--------
+
+For building, you need a copy of the Dynamic Redis source tree.
+
+If you want to build against 2.8.8, use:
+
+```haskell
+mkdir -p ~/repos
+cd ~/repos
+git clone https://github.com/mattsta/redis
+cd redis
+git checkout -b dynamic-redis-2.8.8
+cd ..
+git clone https://github.com/mattsta/krmt
+cd krmt
+make
+```
+
+If you want to build against the current development branch,
+just change `dynamic-redis-2.8.8` to `dynamic-redis-unstable`.
+
+Usage
+-----
+After building your module, you can load it into [Dynamic Redis](https://matt.sh/dynamic-redis).
+
+Sample output on startup on OS X (Linux will complain if you give it a module name without a path):
+```c
+matt@ununoctium:~/repos/redis/src% ./redis-server --module-strict no --module-add ping.so
+[81021] 28 Mar 14:43:14.500 * Module [<builtin>] loaded 145 commands.
+[81021] 28 Mar 14:43:14.501 * Loading new [ping.so] module.
+[81021] 28 Mar 14:43:14.501 # [ping.so] version mismatch. Module was compiled against 2.9.11, but we are 2.8.8-dynamic-0.5. 
+[81021] 28 Mar 14:43:14.501 # Strict version enforcement is disabled. Loading [ping.so] but undefined behavior may occur.
+[81021] 28 Mar 14:43:14.501 * Added command poong [ping.so]
+[81021] 28 Mar 14:43:14.501 * Added command pooooong [ping.so]
+[81021] 28 Mar 14:43:14.501 * Added command pooong [ping.so]
+[81021] 28 Mar 14:43:14.501 * Added command pinger [ping.so]
+[81021] 28 Mar 14:43:14.501 * Module [ping.so] loaded 4 commands.
+[81021] 28 Mar 14:43:14.501 * Running load function of module [ping.so].
+```
+
+Module reloaded with: `CONFIG SET module-add /Users/matt/repos/krmt/poong.so`
+
+Sample output on reloading a module (using a different filename, but the same module name):
+```c
+[81021] 28 Mar 14:43:29.796 * Running cleanup function for [ping.so] module.
+[81021] 28 Mar 14:43:29.796 * Closed previous [ping.so] module.
+[81021] 28 Mar 14:43:29.796 * Loading new [/Users/matt/repos/krmt/poong.so] module.
+[81021] 28 Mar 14:43:29.796 * Replaced existing command poong [/Users/matt/repos/krmt/poong.so]
+[81021] 28 Mar 14:43:29.796 * Replaced existing command pooooong [/Users/matt/repos/krmt/poong.so]
+[81021] 28 Mar 14:43:29.796 * Replaced existing command pooong [/Users/matt/repos/krmt/poong.so]
+[81021] 28 Mar 14:43:29.796 * Replaced existing command pinger [/Users/matt/repos/krmt/poong.so]
+[81021] 28 Mar 14:43:29.796 * Module [/Users/matt/repos/krmt/poong.so] loaded 4 commands.
+[81021] 28 Mar 14:43:29.796 * Running load function of module [/Users/matt/repos/krmt/poong.so].
+```
+
+Sample `INFO modules` output:
+```c
+module_<builtin>:filename=<builtin>,compiled_against=2.8.8-dynamic-0.5,
+module_version=2.8.8-dynamic-0.5,first_loaded=0,last_loaded=0,commands=get,set,
+setnx,setex,psetex,append,strlen,del,exists,setbit,getbit,setrange,getrange,
+substr,incr,decr,mget,rpush,lpush,rpushx,lpushx,linsert,rpop,lpop,brpop,
+brpoplpush,blpop,llen,lindex,lset,lrange,ltrim,lrem,rpoplpush,sadd,srem,smove,
+sismember,scard,spop,srandmember,sinter,sinterstore,sunion,sunionstore,sdiff,
+sdiffstore,smembers,sscan,zadd,zincrby,zrem,zremrangebyscore,zremrangebyrank,
+zunionstore,zinterstore,zrange,zrangebyscore,zrevrangebyscore,zcount,zrevrange,
+zcard,zscore,zrank,zrevrank,zscan,hset,hsetnx,hget,hmset,hmget,hincrby,
+hincrbyfloat,hdel,hlen,hkeys,hvals,hgetall,hexists,hscan,incrby,decrby,
+incrbyfloat,getset,mset,msetnx,randomkey,select,move,rename,renamenx,expire,
+expireat,pexpire,pexpireat,keys,scan,dbsize,auth,ping,echo,save,bgsave,
+bgrewriteaof,shutdown,lastsave,type,multi,exec,discard,sync,psync,replconf,
+flushdb,flushall,sort,info,monitor,ttl,pttl,persist,slaveof,debug,config,
+subscribe,unsubscribe,psubscribe,punsubscribe,publish,pubsub,watch,unwatch,
+restore,migrate,dump,object,client,eval,evalsha,slowlog,script,time,bitop,
+bitcount,bitpos
+module_sh.matt.test.pong:filename=/Users/matt/repos/krmt/poong.so,
+compiled_against=2.8.8-dynamic-0.5,module_version=0.0001,
+first_loaded=0,last_loaded=1396032209,commands=poong,pooooong,pooong,pinger
+```
+
+Contributions
+-------------
+Did you make a nice Redis Add-On Module?  Does it have a beginning,
+a middle, and an end?  Got a protagonist with some obstacles to overcome?
+
+Just open a pull request against this repository if you want
+to share your modules and get them added to `krmt`.
+
+Modules are more likely to be accepted if they have meaningful comments,
+don't leak memory, don't crash Redis, and show us something new and
+delightful while solving problems we've had forever (or solving problems
+we didn't even know we had).
