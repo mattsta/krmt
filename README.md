@@ -35,7 +35,6 @@ Also see the notes at [Dynamic Redis: Use Command Modules](https://matt.sh/dynam
 
 Building
 --------
-
 For building, you need a copy of the Dynamic Redis source tree.
 
 If you want to build against 2.8.8, use:
@@ -59,6 +58,51 @@ Usage
 -----
 After building your module, you can load it into [Dynamic Redis](https://matt.sh/dynamic-redis).
 
+Automatic Module Reloading
+--------------------------
+During development, you can automatically reload your
+modules using some simple loops.  Just run these
+from the directory where you compile your modules
+and everything should work.
+
+Linux:
+```bash
+while inotifywait -e modify module.so; do
+    redis-cli config set module-add `pwd`/module.so
+done
+```
+
+OS X:
+```bash
+brew install kqwait
+while kqwait module.so; do
+    redis-cli config set module-add `pwd`/module.so
+done
+```
+
+Tips
+----
+If you are on OS X, you should monitor your redis-server for
+new memory leaks by running `leaks` in a persistent terminal window:
+```bash
+watch "leaks redis-server"
+```
+
+Think of `leaks` as `valgrind`, except it can monitor leaks in any
+live process.  We run `leaks` in a `watch` loop to refresh the
+check fairly often.
+
+If you are on Linux, you should run your module tests under
+`valgrind` after a good day of development.  Any changes should
+also be re-evaluated for memory leaks and invalid memory access.
+
+Perfecting a Redis command takes time and understanding.  Using
+memory allocation debuggers will help you eventually internalize
+the complexities of how and when Redis uses reference counted objects
+and malloc'd strings for certain operations.
+
+Sample Output
+-------------
 Sample output on startup on OS X (Linux will complain if you give it a module name without a path):
 ```c
 matt@ununoctium:~/repos/redis/src% ./redis-server --module-strict no --module-add ping.so
