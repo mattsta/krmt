@@ -33,6 +33,20 @@ commands work.
 
 Also see the notes at [Dynamic Redis: Use Command Modules](https://matt.sh/dynamic-redis#_use-command-modules).
 
+Examples
+--------
+Included here:
+  - `scriptname.c` - provides `SCRIPTNAME` and `EVALNAME` commands allowing you
+to bind user friendly names to loaded script SHA hashes, then you can call
+scripts by name (using `EVALNAME`) instead of by a 40 character long hash
+reference.
+    - Right now, this module has the best comment structure and best design
+    patterns for creating your own modules.
+    - Use the `dynamic-redis-unstable` branch to build `scriptname.c` since
+    `scriptname.c` depends on a header not exported on released versions yet.
+  - `poong.c` - minimal module showing how the basic Dynamic Redis interface
+API works.
+
 Building
 --------
 For building, you need a copy of the Dynamic Redis source tree.
