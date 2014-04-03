@@ -36,6 +36,8 @@ Also see the notes at [Dynamic Redis: Use Command Modules](https://matt.sh/dynam
 Bundled Commands
 ----------------
 Included in `krmt`:
+  - `bitallpos.c` - provides `BITALLPOS` command returning the positions
+of all set bits in a string (from a [pull request](https://github.com/antirez/redis/pull/1295)).
   - `scriptname.c` - provides `SCRIPTNAME` and `EVALNAME` commands allowing you
 to bind user friendly names to loaded script SHA hashes, then you can call
 scripts by name (using `EVALNAME`) instead of by a 40 character long hash
