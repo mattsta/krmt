@@ -33,9 +33,9 @@ commands work.
 
 Also see the notes at [Dynamic Redis: Use Command Modules](https://matt.sh/dynamic-redis#_use-command-modules).
 
-Examples
---------
-Included here:
+Bundled Commands
+----------------
+Included in `krmt`:
   - `scriptname.c` - provides `SCRIPTNAME` and `EVALNAME` commands allowing you
 to bind user friendly names to loaded script SHA hashes, then you can call
 scripts by name (using `EVALNAME`) instead of by a 40 character long hash

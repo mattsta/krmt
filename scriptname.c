@@ -1,7 +1,7 @@
 #include "redis.h"
 
 /* ====================================================================
- * Redis Add-on Module: script_name
+ * Redis Add-on Module: scriptname
  * Provides commands: scriptname, evalname
  * Behaviors:
  *   - scriptName - bind name to a loaded script SHA (CRUD)
