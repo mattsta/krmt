@@ -5,8 +5,12 @@ About
 -----
 Welcome to the simplest Redis Add-on Module (RAM).
 
-You can use this project as a template for your custom
-Redis commands.
+This repository contains examples and fully implemented commands
+you can add to Redis.
+
+**Note:** You must use a
+[Dynamic Redis](https://matt.sh/dynamic-redis) server if you
+want to use modules.  Regular Redis doesn't know about modules.
 
 Disclaimers:
 
