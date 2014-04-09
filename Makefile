@@ -27,8 +27,10 @@ BINCOLOR="\033[37;1m"
 CLEANCOLOR="\033[32;1m"
 ENDCOLOR="\033[0m"
 
+ifndef_any_of = $(filter undefined,$(foreach v,$(1),$(origin $(v))))
+ifdef_any_of = $(filter-out undefined,$(foreach v,$(1),$(origin $(v))))
 # Run with "make VERBOSE=1" if you want full command output
-ifndef VERBOSE
+ifeq ($(call ifdef_any_of,VERBOSE V),)
 QUIET_CC = @printf '    %b %b\n' $(CCCOLOR)CC$(ENDCOLOR) $(SRCCOLOR)$@$(ENDCOLOR) 1>&2;
 QUIET_CLEAN = @printf '    %b %b\n' $(CLEANCOLOR)CLEAN$(ENDCOLOR) $(BINCOLOR)$^$(ENDCOLOR) 1>&2;
 endif
@@ -36,13 +38,15 @@ endif
 .PHONY: all clean
 .SUFFIXES: .so
 
-SRC=$(wildcard *.c)
-OBJ=$(SRC:.c=.so)
+DIRS:=$(filter-out ./, $(dir $(wildcard *[^dSYM]/)))
+OBJ:=$(DIRS:/=.so)
+OBJ_D:=$(OBJ:%=%.dSYM)
 
 all: $(OBJ)
 
-%.so: %.c
-	$(QUIET_CC) $(CC) $(SHARED_FLAGS) $(FINAL_CFLAGS) -o $@ $^
+%.so: DIRNAME=$*
+%.so: $(wildcard %/*.c)
+	$(QUIET_CC) $(CC) $(SHARED_FLAGS) $(FINAL_CFLAGS) -I./$(DIRNAME)/ -o $@ $(wildcard $(DIRNAME)/*.c)
 
 clean:
-	$(QUIET_CLEAN) rm -rf *.so *.dSYM
+	$(QUIET_CLEAN) rm -rf $(OBJ) $(OBJ_D)
