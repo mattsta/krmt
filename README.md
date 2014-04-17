@@ -40,6 +40,8 @@ Also see the notes at [Dynamic Redis: Use Command Modules](https://matt.sh/dynam
 Bundled Commands
 ----------------
 Included in `krmt`:
+  - `geo.so` - provides efficient geographic coordinate range searches
+    - See [Redis Geo Commands](https://matt.sh/redis-geo) for usage details.
   - `bitallpos.so` - provides `BITALLPOS` command returning the positions
 of all set bits in a string (from a [pull request](https://github.com/antirez/redis/pull/1295)).
   - `scriptname.so` - provides `SCRIPTNAME` and `EVALNAME` commands allowing you
