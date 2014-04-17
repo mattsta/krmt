@@ -175,7 +175,12 @@ struct redisModule redisModuleDetail = {
 
 struct redisCommand redisCommandTable[] = {
     {"scriptName",scriptNameCommand,-2,"s",0,NULL,0,0,0,0,0},
+#if DYN_REDIS_VER == 1000501
+    {"evalName",evalNameCommand,-3,"s",0,NULL,0,0,0,0,0},
+#else
+    /* evalGetKeys exists for Cluster in redis-unstable */
     {"evalName",evalNameCommand,-3,"s",0,evalGetKeys,0,0,0,0,0},
+#endif
     {0}  /* Always end your command table with {0}
           * If you forget, you will be reminded with a segfault on load. */
 };
