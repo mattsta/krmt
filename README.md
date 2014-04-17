@@ -21,10 +21,10 @@ Disclaimers:
   examples of how to write different Redis commands.
   - Make sure to release objects and free memory you allocate. You will
   introduce memory leaks if you forget to free things.
-  - You don't have to write in C. You can use C, C++, Go (?), or anything else
+  - You don't have to write in C. You can use C, C++, Go (?), Guile, Chicken, or anything else
   generating a shared library with C symbols for your operating system.  You
   can even link additional libraries (want numerical routines?  embedded
-  sqlite3?  embedded snappy/zippy?  embedded geos?  embedded C json parser?)
+  sqlite3?  embedded snappy/zippy?)
 
 
 Writing Your Module
@@ -40,9 +40,9 @@ Also see the notes at [Dynamic Redis: Use Command Modules](https://matt.sh/dynam
 Bundled Commands
 ----------------
 Included in `krmt`:
-  - `bitallpos.c` - provides `BITALLPOS` command returning the positions
+  - `bitallpos.so` - provides `BITALLPOS` command returning the positions
 of all set bits in a string (from a [pull request](https://github.com/antirez/redis/pull/1295)).
-  - `scriptname.c` - provides `SCRIPTNAME` and `EVALNAME` commands allowing you
+  - `scriptname.so` - provides `SCRIPTNAME` and `EVALNAME` commands allowing you
 to bind user friendly names to loaded script SHA hashes, then you can call
 scripts by name (using `EVALNAME`) instead of by a 40 character long hash
 reference.
@@ -50,7 +50,7 @@ reference.
     patterns for creating your own modules.
     - Use the `dynamic-redis-unstable` branch to build `scriptname.c` since
     `scriptname.c` depends on a header not exported on released versions yet.
-  - `poong.c` - minimal module showing how the basic Dynamic Redis interface
+  - `poong.so` - minimal module showing how the basic Dynamic Redis interface
 API works.
 
 Building
@@ -68,7 +68,7 @@ git checkout -b dynamic-redis-2.8.8
 cd ..
 git clone https://github.com/mattsta/krmt
 cd krmt
-make
+make clean; make -j
 ```
 
 If you want to build against the current development branch,
@@ -77,6 +77,31 @@ just change `dynamic-redis-2.8.8` to `dynamic-redis-unstable`.
 Usage
 -----
 After building your module, you can load it into [Dynamic Redis](https://matt.sh/dynamic-redis).
+
+Compatability
+-------------
+As Redis adds or removes features, sometimes modules may need to
+be updated to take into account different functions or interfaces
+available to them.
+
+Stable releases of Dynamic Redis (as of 0.5.1) define a
+`DYN_REDIS_VER` constant you can use for preprocessor selective
+including or excluding of code.
+
+Each release of Dynamic Redis corresponds to a tag in krmt.  You
+can download a version of Dynamic Redis, checkout the same version
+tag for krmt, and both codebases will be compatible.
+
+krmt is also always compatible against the current `dynamic-redis-unstable`
+branch.
+
+For stable branches, `DYN_REDIS_VER` is set appropriately.
+For example: Dynamic Redis 0.5.1 is `#define DYN_REDIS_VER 1000501` wich comes from:
+1 for prefix, 00 for the `0.`, 05 for the `5.`, and 01 for the final `1`.
+
+(Second example: for a future Dynamic Redis 9.12.4, the define would be `#define DYN_REDIS_VER 1091204`.)
+
+For the unstable branch, `DYN_REDIS_VER` is currently not defined.
 
 Automatic Module Reloading
 --------------------------
