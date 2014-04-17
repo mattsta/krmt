@@ -66,7 +66,7 @@ mkdir -p ~/repos
 cd ~/repos
 git clone https://github.com/mattsta/redis
 cd redis
-git checkout -b dynamic-redis-2.8.8
+git checkout dynamic-redis-2.8.8
 cd ..
 git clone https://github.com/mattsta/krmt
 cd krmt
