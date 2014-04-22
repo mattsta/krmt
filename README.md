@@ -42,6 +42,8 @@ Bundled Commands
 Included in `krmt`:
   - `geo.so` - provides efficient geographic coordinate range searches
     - See [Redis Geo Commands](https://matt.sh/redis-geo) for usage details.
+  - `hmsetnx.so` - provides `HMSETNX` (from a [pull request](https://github.com/antirez/redis/issues/542)
+    and updated to integrate into more recent Redis versions).
   - `bitallpos.so` - provides `BITALLPOS` command returning the positions
 of all set bits in a string (from a [pull request](https://github.com/antirez/redis/pull/1295)).
   - `scriptname.so` - provides `SCRIPTNAME` and `EVALNAME` commands allowing you
