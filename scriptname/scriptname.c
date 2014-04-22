@@ -175,7 +175,7 @@ struct redisModule redisModuleDetail = {
 
 struct redisCommand redisCommandTable[] = {
     {"scriptName",scriptNameCommand,-2,"s",0,NULL,0,0,0,0,0},
-#if DYN_REDIS_VER == 1000501
+#if DYN_FEATURE_CLUSTER == false
     {"evalName",evalNameCommand,-3,"s",0,NULL,0,0,0,0,0},
 #else
     /* evalGetKeys exists for Cluster in redis-unstable */

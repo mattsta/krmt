@@ -45,11 +45,7 @@ list *zrangebyscore(robj *zobj, double min, double max, int limit) {
         long long vlong = 0;
         double score = 0;
 
-#if DYN_REDIS_VER == 1000501
-        if ((eptr = zzlFirstInRange(zl, range)) == NULL) {
-#else
         if ((eptr = zzlFirstInRange(zl, &range)) == NULL) {
-#endif
             /* Nothing exists starting at our min.  No results. */
             return NULL;
         }
@@ -79,12 +75,7 @@ list *zrangebyscore(robj *zobj, double min, double max, int limit) {
         zskiplist *zsl = zs->zsl;
         zskiplistNode *ln;
 
-#if DYN_REDIS_VER == 1000501
-        if ((ln = zslFirstInRange(zsl, range)) == NULL) {
-#else
-        /* redis-unstable now wants a pointer for range */
         if ((ln = zslFirstInRange(zsl, &range)) == NULL) {
-#endif
             /* Nothing exists starting at our min.  No results. */
             return NULL;
         }

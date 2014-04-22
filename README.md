@@ -88,24 +88,17 @@ As Redis adds or removes features, sometimes modules may need to
 be updated to take into account different functions or interfaces
 available to them.
 
-Stable releases of Dynamic Redis (as of 0.5.1) define a
-`DYN_REDIS_VER` constant you can use for preprocessor selective
+Stable releases of Dynamic Redis (as of 0.5.2) define a few
+`DYN_FEATURE_[feature]` constants you can use for preprocessor selective
 including or excluding of code.
 
-Each release of Dynamic Redis corresponds to a tag in krmt.  You
-can download a version of Dynamic Redis, checkout the same version
-tag for krmt, and both codebases will be compatible.
+The currently defined features are negative features allowing the absense
+of them to mean "use behavior from unstable branch."
 
-krmt is also always compatible against the current `dynamic-redis-unstable`
-branch.
+You can check all the current feature defines in `version.h` of your
+Dynamic Redis checkout.
 
-For stable branches, `DYN_REDIS_VER` is set appropriately.
-For example: Dynamic Redis 0.5.1 is `#define DYN_REDIS_VER 1000501` wich comes from:
-1 for prefix, 00 for the `0.`, 05 for the `5.`, and 01 for the final `1`.
-
-(Second example: for a future Dynamic Redis 9.12.4, the define would be `#define DYN_REDIS_VER 1091204`.)
-
-For the unstable branch, `DYN_REDIS_VER` is currently not defined.
+For the unstable branch, no features are defined.
 
 Automatic Module Reloading
 --------------------------
