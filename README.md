@@ -1,5 +1,5 @@
-kermt: Redis Module ToolKit
-===========================
+krmt: Kit of Redis Module Tools
+===============================
 
 About
 -----
