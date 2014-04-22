@@ -3,10 +3,12 @@ krmt: Kit of Redis Module Tools
 
 About
 -----
-Welcome to the simplest Redis Add-on Module (RAM).
+Welcome to a kit of tools you can easily add to Redis.
 
-This repository contains examples and fully implemented commands
-you can add to Redis.
+This repository gives you multiple ready-to-use Redis Add-on Modules.
+
+You can also use the modules here for examples and templates to create
+your own your own loadable Redis modules.
 
 **Note:** You must use a
 [Dynamic Redis](https://matt.sh/dynamic-redis) server if you
