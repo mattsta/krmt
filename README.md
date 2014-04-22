@@ -61,14 +61,14 @@ Building
 --------
 For building, you need a copy of the Dynamic Redis source tree.
 
-If you want to build against 2.8.8, use:
+If you want to build against the most recent 2.8 commits, use:
 
 ```haskell
 mkdir -p ~/repos
 cd ~/repos
 git clone https://github.com/mattsta/redis
 cd redis
-git checkout dynamic-redis-2.8.8
+git checkout dynamic-redis-2.8
 cd ..
 git clone https://github.com/mattsta/krmt
 cd krmt
@@ -76,7 +76,7 @@ make clean; make -j
 ```
 
 If you want to build against the current development branch,
-just change `dynamic-redis-2.8.8` to `dynamic-redis-unstable`.
+just change `dynamic-redis-2.8` to `dynamic-redis-unstable`.
 
 Usage
 -----
