@@ -42,6 +42,8 @@ Also see the notes at [Dynamic Redis: Use Command Modules](https://matt.sh/dynam
 Bundled Commands
 ----------------
 Included in `krmt`:
+  - `json.so` - an experiment in storing JSON documents in Redis
+    - See [Redis JSON Document Store](https://matt.sh/redis-json) for usage details.
   - `geo.so` - provides efficient geographic coordinate range searches
     - See [Redis Geo Commands](https://matt.sh/redis-geo) for usage details.
   - `hmsetnx.so` - provides `HMSETNX` (from a [pull request](https://github.com/antirez/redis/issues/542)
@@ -68,6 +70,11 @@ If you want to build against the most recent 2.8 commits, use:
 ```haskell
 mkdir -p ~/repos
 cd ~/repos
+# We need YAJL for JSON commands and the Makefile refuses to run without it.
+git clone https://github.com/lloyd/yajl
+cd yajl
+./configure; make
+cd ..
 git clone https://github.com/mattsta/redis
 cd redis
 git checkout dynamic-redis-2.8
@@ -135,6 +142,12 @@ watch "leaks redis-server"
 Think of `leaks` as `valgrind`, except it can monitor leaks in any
 live process.  We run `leaks` in a `watch` loop to refresh the
 check fairly often.
+
+Under some use cases, `leaks` can cause an infinite loop in OS X's
+`malloc` routine.  If that happens, rest assured it's a problem
+with `leaks` and not your code.  You can also try running under
+`jemalloc` on OS X (not the default) to clear up any strange OS X
+malloc issues.
 
 If you are on Linux, you should run your module tests under
 `valgrind` after a good day of development.  Any changes should
