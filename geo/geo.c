@@ -262,7 +262,14 @@ static int publishLocationUpdate(const sds zset, const sds member,
 /* Sort comparators for qsort() */
 static int sort_gp_asc(const void *a, const void *b) {
     const struct geojsonPoint *gpa = a, *gpb = b;
-    return gpa->dist - gpb->dist;
+    /* We can't do adist - bdist because they are doubles and
+     * the comparator returns an int. */
+    if (gpa->dist > gpb->dist)
+        return 1;
+    else if (gpa->dist == gpb->dist)
+        return 0;
+    else
+        return -1;
 }
 
 static int sort_gp_desc(const void *a, const void *b) {
