@@ -212,7 +212,7 @@ static bool hmsetIndirectFromJson(struct jsonObj *root, sds id) {
             sdsfree(populate_as);
         }
     }
-#ifdef D
+#ifndef PRODUCTION
     /* D is too noisy and we need spacing between iterations.  Only do this
      * double line printf if we are in D-debug mode. */
     printf("\n\n");
