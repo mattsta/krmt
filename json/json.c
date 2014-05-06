@@ -56,23 +56,36 @@ void clearClient(redisClient *c) {
     c->argv = NULL;
 }
 
+void freeFakeClientResultBuffer(redisClient *c, sds reply) {
+    /* If the reply isn't our reply buffer, we created it
+     * independently and need to free it here. */
+    /* Else, it still belongs to the client to deal with. */
+    if (reply != c->buf)
+        sdsfree(reply);
+}
+
 /* result buffer aggregation is taken from scripting.c */
 sds fakeClientResultBuffer(redisClient *c) {
-    sds reply = sdsempty();
-    if (c->bufpos) {
-        reply = sdscatlen(reply, c->buf, c->bufpos);
-        c->bufpos = 0;
-    }
-    while (listLength(c->reply)) {
-        robj *o = listNodeValue(listFirst(c->reply));
+    sds reply;
 
-        reply = sdscatlen(reply, o->ptr, sdslen(o->ptr));
-        listDelNode(c->reply, listFirst(c->reply));
+    if (listLength(c->reply) == 0 && c->bufpos < REDIS_REPLY_CHUNK_BYTES) {
+        /* This is a fast path for the common case of a reply inside the
+         * client static buffer. Don't create an SDS string but just use
+         * the client buffer directly. */
+        c->buf[c->bufpos] = '\0';
+        reply = c->buf;
+        c->bufpos = 0;
+    } else {
+        reply = sdsnewlen(c->buf,c->bufpos);
+        c->bufpos = 0;
+        while(listLength(c->reply)) {
+            robj *o = listNodeValue(listFirst(c->reply));
+
+            reply = sdscatlen(reply,o->ptr,sdslen(o->ptr));
+            listDelNode(c->reply,listFirst(c->reply));
+        }
     }
-    if (!sdslen(reply)) {
-        sdsfree(reply);
-        reply = NULL;
-    }
+
     return reply;
 }
 

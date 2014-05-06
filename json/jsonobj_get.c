@@ -166,7 +166,7 @@ static struct jsonObj *hgetallToJsonObj(sds key, int decode_as) {
     /* Turn the fake client buffer into a JSON object tree */
     struct jsonObj *f = redisKVProtocolToJSONContainer(
         fake_client_buffer, proper_key->ptr, decode_as);
-    sdsfree(fake_client_buffer);
+    freeFakeClientResultBuffer(fake_client, fake_client_buffer);
     decrRefCount(proper_key);
 
     return f;
@@ -199,7 +199,7 @@ struct jsonObj *hgetToJsonObj(sds key, int decode_as, sds field) {
     struct jsonObj *f = redisKVProtocolToJSONContainer(fake_client_buffer,
                                                        populate_as, decode_as);
     sdsfree(populate_as);
-    sdsfree(fake_client_buffer);
+    freeFakeClientResultBuffer(fake_client, fake_client_buffer);
     decrRefCount(proper_key);
     decrRefCount(proper_field);
 
@@ -285,7 +285,7 @@ static void redisClientBufferToJsonAndReply(redisClient *c,
     /* Turn the fake client buffer into a JSON object tree */
     struct jsonObj *f = redisKVProtocolToJSONContainer(fake_client_buffer, NULL,
                                                        DECODE_ALL_STRING);
-    sdsfree(fake_client_buffer);
+    freeFakeClientResultBuffer(fake_client, fake_client_buffer);
 
     /* Turn the JSON object tree into JSON */
     sds json = jsonObjToJson(f);
@@ -655,7 +655,7 @@ static struct jsonObj *localrpop(sds key, int decode_as) {
     next += SZ_CRLF;
 
     sds pop_result = sdsnewlen(next, sz);
-    sdsfree(fake_client_buffer);
+    freeFakeClientResultBuffer(c, fake_client_buffer);
 
     /* If we know this is a number or string, quickly return without
      * attempting recursive processing.  The missing case of DECODE_INDIVIDUAL

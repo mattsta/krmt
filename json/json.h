@@ -45,6 +45,7 @@ extern struct global g;
 
 robj *dbstrTake(sds id);
 robj *dbstr(sds id);
+void freeFakeClientResultBuffer(redisClient *c, sds reply);
 sds fakeClientResultBuffer(redisClient *c);
 void clearClient(redisClient *c);
 

@@ -228,7 +228,7 @@ static int hgetallRecursivelyDeleteJsonObj(sds key, int decode_as) {
     /* Delete ALL THE THINGS */
     int deleted = redisKVProtocolRecusivelyDelete(fake_client_buffer,
                                                   proper_key->ptr, decode_as);
-    sdsfree(fake_client_buffer);
+    freeFakeClientResultBuffer(fake_client, fake_client_buffer);
     decrRefCount(proper_key);
 
     return deleted;
