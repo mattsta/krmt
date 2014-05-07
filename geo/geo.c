@@ -163,7 +163,7 @@ static list *membersOfGeoHashBox(robj *zobj, GeoHashBits hash) {
     hash.bits++;
     max = geohashAlign52Bits(hash);
 
-    return zrangebyscore(zobj, min, max, -1); /* -1 = no limit */
+    return geozrangebyscore(zobj, min, max, -1); /* -1 = no limit */
 }
 
 /* Search all eight neighbors + self geohash box */

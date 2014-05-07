@@ -31,7 +31,7 @@ double zsetScore(robj *zobj, robj *member, double *score) {
 /* Largely extracted from genericZrangebyscoreCommand() in t_zset.c */
 /* The zrangebyscoreCommand expects to only operate on a live redisClient,
  * but we need results returned to us, not sent over an async socket. */
-list *zrangebyscore(robj *zobj, double min, double max, int limit) {
+list *geozrangebyscore(robj *zobj, double min, double max, int limit) {
     /* minex 0 = include min in range; maxex 1 = exclude max in range */
     /* That's: min <= val < max */
     zrangespec range = { .min = min, .max = max, .minex = 0, .maxex = 1 };
