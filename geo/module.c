@@ -26,12 +26,12 @@ struct redisModule redisModuleDetail = {
 };
 
 struct redisCommand redisCommandTable[] = {
-    { "geoadd", geoAddCommand, -5, "s", 0, NULL, 1, 1, 1, 0, 0 },
-    { "georadius", geoRadiusCommand, -6, "s", 0, NULL, 1, 1, 1, 0, 0 },
-    { "georadiusbymember", geoRadiusByMemberCommand, -5, "s", 0, NULL, 1, 1, 1,
+    { "geoadd", geoAddCommand, -5, "wm", 0, NULL, 1, 1, 1, 0, 0 },
+    { "georadius", geoRadiusCommand, -6, "r", 0, NULL, 1, 1, 1, 0, 0 },
+    { "georadiusbymember", geoRadiusByMemberCommand, -5, "r", 0, NULL, 1, 1, 1,
       0, 0 },
-    { "geoencode", geoEncodeCommand, -3, "s", 0, NULL, 0, 0, 0, 0, 0 },
-    { "geodecode", geoDecodeCommand, -2, "s", 0, NULL, 0, 0, 0, 0, 0 },
+    { "geoencode", geoEncodeCommand, -3, "r", 0, NULL, 0, 0, 0, 0, 0 },
+    { "geodecode", geoDecodeCommand, -2, "r", 0, NULL, 0, 0, 0, 0, 0 },
     { 0 } /* Always end your command table with {0}
            * If you forget, you will be reminded with a segfault on load. */
 };
