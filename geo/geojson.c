@@ -64,14 +64,6 @@ static void luaCreatePropertyNull(void) {
     luaCreateFieldFromPrevious("properties");
 }
 
-static void luaCreateProperty(const char *k1, const char *v1) {
-    lua_createtable(L, 0, 1);
-
-    luaCreateFieldStr(k1, v1);
-
-    luaCreateFieldFromPrevious("properties");
-}
-
 static void _luaCreateProperties(const char *k1, const char *v1, const char *k2,
                                  const char *v2, const int noclose) {
     /* we may add additional properties outside of here, so newtable instead of
