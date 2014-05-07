@@ -1,4 +1,4 @@
-#include "redis.h"
+#include "geo.h"
 #include "geohash_helper.h"
 #include "geojson.h"
 #include "zset.h"
