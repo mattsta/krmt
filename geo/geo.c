@@ -358,7 +358,7 @@ void geoAddCommand(redisClient *c) {
 #define RADIUS_COORDS 1
 #define RADIUS_MEMBER 2
 
-void geoRadiusGeneric(redisClient *c, int type) {
+static void geoRadiusGeneric(redisClient *c, int type) {
     /* type == cords:  [cmd, key, lat, long, radius, units, [optionals]]
      * type == member: [cmd, key, member,    radius, units, [optionals]] */
     robj *key = c->argv[1];
