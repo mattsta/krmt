@@ -11,6 +11,8 @@
  * Command Implementations
  * ==================================================================== */
 void hmsetnxCommand(redisClient *c) {
+    /* args 0-N: ["HMSETNX", key, field1, val1, field2, val2, ...] */
+    /* Returns 0 if no keys were set or OK if keys were set. */
     int i, busykeys = 0;
     robj *o;
 
@@ -34,13 +36,7 @@ void hmsetnxCommand(redisClient *c) {
         }
     }
 
-    for (i = 2; i < c->argc; i += 2) {
-         hashTypeTryObjectEncoding(o,&c->argv[i], &c->argv[i+1]);
-         hashTypeSet(o,c->argv[i],c->argv[i+1]);
-    }
-    addReply(c, shared.cone);
-    signalModifiedKey(c->db,c->argv[1]);
-    server.dirty++;
+    hmsetCommand(c);
 }
 
 /* ====================================================================
@@ -61,7 +57,7 @@ void cleanup(void *privdata) {
 struct redisModule redisModuleDetail = {
    REDIS_MODULE_COMMAND, /* Tell Dynamic Redis our module provides commands */
    REDIS_VERSION,        /* Provided by redis.h */
-   "0.3",                /* Version of this module (only for reporting) */
+   "0.4",                /* Version of this module (only for reporting) */
    "sh.matt.hmsetnx",    /* Unique name of this module */
    load,                 /* Load function pointer (optional) */
    cleanup               /* Cleanup function pointer (optional) */
