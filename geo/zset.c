@@ -1,5 +1,13 @@
 #include "zset.h"
 
+/* t_zset.c prototypes (there's no t_zset.h) */
+unsigned char *zzlFirstInRange(unsigned char *zl, zrangespec *range);
+unsigned char *zzlFind(unsigned char *zl, robj *ele, double *score);
+int zzlLexValueLteMax(unsigned char *p, zlexrangespec *spec);
+
+/* Converted from static in t_zset.c: */
+int zslValueLteMax(double value, zrangespec *spec);
+
 /* ====================================================================
  * Direct Redis DB Interaction
  * ==================================================================== */
