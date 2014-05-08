@@ -46,6 +46,7 @@ Included in `krmt`:
     - See [Redis JSON Document Store](https://matt.sh/redis-json) for usage details.
   - `geo.so` - provides efficient geographic coordinate range searches
     - See [Redis Geo Commands](https://matt.sh/redis-geo) for usage details.
+  - `hmsetif.so` - provides `HMSETIF` (renamed from [HMSETCK](https://github.com/tsee/redis/commit/9fdc57ca481b05433f9c37d9f041861e008c595b))
   - `hmsetnx.so` - provides `HMSETNX` (from a [pull request](https://github.com/antirez/redis/issues/542)
     and updated to integrate into more recent Redis versions).
   - `bitallpos.so` - provides `BITALLPOS` command returning the positions
