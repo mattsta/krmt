@@ -17,7 +17,7 @@ struct zipresult {
 };
 
 /* Redis DB Access */
-double zsetScore(robj *zobj, robj *member, double *score);
+bool zsetScore(robj *zobj, robj *member, double *score);
 list *geozrangebyscore(robj *zobj, double min, double max, int limit);
 
 /* New list operation: append one list to another */

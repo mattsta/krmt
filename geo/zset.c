@@ -13,7 +13,7 @@ int zslValueLteMax(double value, zrangespec *spec);
  * ==================================================================== */
 
 /* zset access is mostly a copy/paste from zscoreCommand() */
-double zsetScore(robj *zobj, robj *member, double *score) {
+bool zsetScore(robj *zobj, robj *member, double *score) {
     if (!zobj || !member)
         return false;
 
