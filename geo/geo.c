@@ -337,7 +337,12 @@ void geoAddCommand(redisClient *c) {
     /* elements will always be correct size (integer math floors for us if we
      * have 6 or 7 total arguments) */
     if (elements > 1) {
+        /* We should probably use a static client and not create/free it
+         * for every multi-add */
         client = createClient(-1); /* fake client for multi-zadd */
+
+        /* Tell fake client to use the same DB as our calling client. */
+        selectDb(client, c->db->id);
     }
 
     /* Capture all lat/long components up front so if we encounter an error we
