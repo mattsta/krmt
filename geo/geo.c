@@ -372,10 +372,12 @@ void geoAddCommand(redisClient *c) {
         robj *val = c->argv[2 + i * 3 + 2];
         /* (base args) + (offset for this triple) + (offset of value arg) */
 
+        sds orig_val = sdsdup(val->ptr); /* zadd potentially compresses val */
         rewriteClientCommandVector(client, 4, cmd, key, score, val);
         decrRefCount(score);
         zaddCommand(client);
-        publishLocationUpdate(key->ptr, val->ptr, latitude, longitude);
+        publishLocationUpdate(key->ptr, orig_val, latitude, longitude);
+        sdsfree(orig_val);
     }
 
     /* If we used a fake client, return a real reply then free fake client. */
