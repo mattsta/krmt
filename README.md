@@ -79,6 +79,7 @@ cd ..
 git clone https://github.com/mattsta/redis
 cd redis
 git checkout dynamic-redis-2.8
+make
 cd ..
 git clone https://github.com/mattsta/krmt
 cd krmt
