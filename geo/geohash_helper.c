@@ -171,7 +171,7 @@ GeoHashRadius geohashGetAreasByRadius(uint8_t coord_type, double latitude,
     steps = geohashEstimateStepsByRadius(radius_meters);
 
     geohashGetCoordRange(coord_type, &lat_range, &long_range);
-    geohashEncode(&lat_range, &long_range, latitude, longitude, steps, &hash);
+    geohashEncode(lat_range, long_range, latitude, longitude, steps, &hash);
     geohashNeighbors(&hash, &neighbors);
     geohashDecode(lat_range, long_range, hash, &area);
 

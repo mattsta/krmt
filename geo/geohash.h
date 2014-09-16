@@ -34,6 +34,7 @@
 #include <stddef.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <math.h>
 
 #if defined(__cplusplus)
 extern "C" {
@@ -41,7 +42,6 @@ extern "C" {
 
 #define HASHISZERO(r) (!(r).bits && !(r).step)
 #define RANGEISZERO(r) (!(r).max && !(r).min)
-#define RANGEPISZERO(r) (r == NULL || RANGEISZERO(*r))
 
 #define GEO_WGS84_TYPE 1
 #define GEO_MERCATOR_TYPE 2
@@ -92,7 +92,7 @@ typedef struct {
  */
 bool geohashGetCoordRange(uint8_t coord_type, GeoHashRange *lat_range,
                           GeoHashRange *long_range);
-bool geohashEncode(GeoHashRange *lat_range, GeoHashRange *long_range,
+bool geohashEncode(GeoHashRange lat_range, GeoHashRange long_range,
                    double latitude, double longitude, uint8_t step,
                    GeoHashBits *hash);
 bool geohashEncodeType(uint8_t coord_type, double latitude, double longitude,
