@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
     long total = sizeof(latlong) / sizeof(*latlong) - 1;
 
 /* encode speed test */
-#define INNER_BOOST 200
+#define INNER_BOOST 2000
     GeoHashBits hash;
     long long start = ustime();
     for (long i = 0; i < total; i++)
@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
             geohashEncodeWGS84(latlong[i], latlong[i + 1], GEO_STEP_MAX, &hash);
     long long end = ustime();
 
-    double elapsed_seconds = (end - start) / 1e6;
+    double elapsed_seconds = (double)(end - start) / (double)1e6;
     printf("Elapsed encode time: %f seconds\n", elapsed_seconds);
     printf("Against %d total encodes\n", TOTAL * INNER_BOOST);
     printf("Speed: %f encodes per second\n",
