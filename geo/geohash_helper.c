@@ -35,6 +35,14 @@
 
 #include "geohash_helper.h"
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846264338327950288
+#endif
+
+#ifndef M_PI_2
+#define M_PI_2 1.57079632679489661923132169163975144
+#endif
+
 #define D_R (M_PI / 180.0)
 #define R_MAJOR 6378137.0
 #define R_MINOR 6356752.3142
