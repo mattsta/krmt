@@ -200,13 +200,17 @@ bool geohashDecode(const GeoHashRange lat_range, const GeoHashRange long_range,
     uint32_t ilato = hash_sep;       /* get lat part of deinterleaved hash */
     uint32_t ilono = hash_sep >> 32; /* shift over to get long part of hash */
 
-    /* ldexp converts the integer to a double,then divides by 2**step.
+    /* divide by 2**step.
      * Then, for 0-1 coordinate, multiply times scale and add
        to the min to get the absolute coordinate. */
-    area->latitude.min = lat_range.min + ldexp(ilato, -step) * lat_scale;
-    area->latitude.max = lat_range.min + ldexp(ilato + 1, -step) * lat_scale;
-    area->longitude.min = long_range.min + ldexp(ilono, -step) * long_scale;
-    area->longitude.max = long_range.min + ldexp(ilono + 1, -step) * long_scale;
+    area->latitude.min =
+        lat_range.min + (ilato * 1.0 / (1ull << step)) * lat_scale;
+    area->latitude.max =
+        lat_range.min + ((ilato + 1) * 1.0 / (1ull << step)) * lat_scale;
+    area->longitude.min =
+        long_range.min + (ilono * 1.0 / (1ull << step)) * long_scale;
+    area->longitude.max =
+        long_range.min + ((ilono + 1) * 1.0 / (1ull << step)) * long_scale;
 
     return true;
 }

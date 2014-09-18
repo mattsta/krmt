@@ -34,7 +34,6 @@
 #include <stddef.h>
 #include <stdbool.h>
 #include <stdint.h>
-#include <math.h>
 
 #if defined(__cplusplus)
 extern "C" {
