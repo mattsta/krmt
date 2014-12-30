@@ -23,7 +23,7 @@ static long long ustime(void) {
 #define TOTAL 200000
 int main(int argc, char *argv[]) {
 
-    double latlong[TOTAL * 2] = { 0 };
+    double latlong[TOTAL * 2] = {0};
 
     FILE *fp;
     size_t len = 4096;

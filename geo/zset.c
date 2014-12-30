@@ -42,7 +42,7 @@ bool zsetScore(robj *zobj, robj *member, double *score) {
 list *geozrangebyscore(robj *zobj, double min, double max, int limit) {
     /* minex 0 = include min in range; maxex 1 = exclude max in range */
     /* That's: min <= val < max */
-    zrangespec range = { .min = min, .max = max, .minex = 0, .maxex = 1 };
+    zrangespec range = {.min = min, .max = max, .minex = 0, .maxex = 1};
     list *l = NULL; /* result list */
 
     if (zobj->encoding == REDIS_ENCODING_ZIPLIST) {
@@ -151,10 +151,10 @@ static struct zipresult *result(double score, long long v, unsigned char *s,
 
     r->score = score;
     switch (r->type) {
-    case(ZR_LONG) :
+    case (ZR_LONG):
         r->val.v = v;
         break;
-    case(ZR_STRING) :
+    case (ZR_STRING):
         r->val.s = sdsnewlen(s, len);
         break;
     }
@@ -174,9 +174,9 @@ void free_zipresult(struct zipresult *r) {
         return;
 
     switch (r->type) {
-    case(ZR_LONG) :
+    case (ZR_LONG):
         break;
-    case(ZR_STRING) :
+    case (ZR_STRING):
         sdsfree(r->val.s);
         break;
     }

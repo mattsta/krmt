@@ -48,7 +48,7 @@
  * Helpers
  * ==================================================================== */
 static inline bool decodeGeohash(double bits, double *latlong) {
-    GeoHashBits hash = { .bits = (uint64_t)bits, .step = GEO_STEP_MAX };
+    GeoHashBits hash = {.bits = (uint64_t)bits, .step = GEO_STEP_MAX};
     return geohashDecodeToLatLongWGS84(hash, latlong);
 }
 
@@ -124,8 +124,8 @@ static void latLongToGeojsonAndReply(redisClient *c, struct geojsonPoint *gp,
 static void decodeGeohashToGeojsonBoundsAndReply(redisClient *c,
                                                  uint64_t hashbits,
                                                  struct geojsonPoint *gp) {
-    GeoHashArea area = { { 0 } };
-    GeoHashBits hash = { .bits = hashbits, .step = GEO_STEP_MAX };
+    GeoHashArea area = {{0}};
+    GeoHashBits hash = {.bits = hashbits, .step = GEO_STEP_MAX};
 
     geohashDecodeWGS84(hash, &area);
 
@@ -140,7 +140,7 @@ static void decodeGeohashToGeojsonBoundsAndReply(redisClient *c,
  * for returning location distances. "5.21 meters away" is nicer
  * than "5.2144992818115 meters away." */
 static inline void addReplyDoubleNicer(redisClient *c, double d) {
-    char dbuf[128] = { 0 };
+    char dbuf[128] = {0};
     int dlen = snprintf(dbuf, sizeof(dbuf), "%.2f", d);
     addReplyBulkCBuffer(c, dbuf, dlen);
 }
@@ -213,9 +213,8 @@ static list *membersOfAllNeighbors(robj *zobj, GeoHashRadius n, double x,
     listRewind(l, &li);
     while ((ln = listNext(&li))) {
         struct zipresult *zr = listNodeValue(ln);
-        GeoHashArea area = { { 0 } };
-        GeoHashBits hash = { .bits = (uint64_t)zr->score,
-                             .step = GEO_STEP_MAX };
+        GeoHashArea area = {{0}};
+        GeoHashBits hash = {.bits = (uint64_t)zr->score, .step = GEO_STEP_MAX};
 
         if (!geohashDecodeWGS84(hash, &area)) {
             /* Perhaps we should delete this node if the decode fails? */
@@ -408,7 +407,7 @@ static void geoRadiusGeneric(redisClient *c, int type) {
 
     /* Find lat/long to use for radius search based on inquiry type */
     int base_args;
-    double latlong[2] = { 0 };
+    double latlong[2] = {0};
     if (type == RADIUS_COORDS) {
         base_args = 6;
         if (!extractLatLongOrReply(c, c->argv + 2, latlong))
@@ -649,9 +648,8 @@ void geoDecodeCommand(redisClient *c) {
     addReplyDouble(c, x);
 
     if (withgeojson) {
-        struct geojsonPoint gp = { .latitude = y,
-                                   .longitude = x,
-                                   .member = NULL };
+        struct geojsonPoint gp = {
+            .latitude = y, .longitude = x, .member = NULL};
 
         /* Return geojson Feature Point */
         latLongToGeojsonAndReply(c, &gp, NULL);
@@ -732,9 +730,8 @@ void geoEncodeCommand(redisClient *c) {
     addReplyDouble(c, x);
 
     if (withgeojson) {
-        struct geojsonPoint gp = { .latitude = y,
-                                   .longitude = x,
-                                   .member = NULL };
+        struct geojsonPoint gp = {
+            .latitude = y, .longitude = x, .member = NULL};
 
         /* Return geojson Feature Point */
         latLongToGeojsonAndReply(c, &gp, NULL);

@@ -17,13 +17,14 @@ void hmsetnxCommand(redisClient *c) {
     robj *o;
 
     if ((c->argc % 2) == 1) {
-        addReplyError(c,"wrong number of arguments for HMSETNX");
+        addReplyError(c, "wrong number of arguments for HMSETNX");
         return;
     }
 
-    if ((o = hashTypeLookupWriteOrCreate(c,c->argv[1])) == NULL) return;
-    hashTypeTryConversion(o,c->argv,2,c->argc-1);
- 
+    if ((o = hashTypeLookupWriteOrCreate(c, c->argv[1])) == NULL)
+        return;
+    hashTypeTryConversion(o, c->argv, 2, c->argc - 1);
+
     /* Handle the NX flag. The HMSETNX semantic is to return zero and don't
      * set nothing at all if at least one already key exists. */
     for (i = 2; i < c->argc; i += 2) {
@@ -42,29 +43,26 @@ void hmsetnxCommand(redisClient *c) {
 /* ====================================================================
  * Bring up / Teardown
  * ==================================================================== */
-void *load() {
-    return NULL;
-}
+void *load() { return NULL; }
 
 /* If you reload the module *without* freeing things you allocate in load(),
  * then you *will* introduce memory leaks. */
-void cleanup(void *privdata) {
-}
+void cleanup(void *privdata) {}
 
 /* ====================================================================
  * Dynamic Redis API Requirements
  * ==================================================================== */
 struct redisModule redisModuleDetail = {
-   REDIS_MODULE_COMMAND, /* Tell Dynamic Redis our module provides commands */
-   REDIS_VERSION,        /* Provided by redis.h */
-   "0.4",                /* Version of this module (only for reporting) */
-   "sh.matt.hmsetnx",    /* Unique name of this module */
-   load,                 /* Load function pointer (optional) */
-   cleanup               /* Cleanup function pointer (optional) */
+    REDIS_MODULE_COMMAND, /* Tell Dynamic Redis our module provides commands */
+    REDIS_VERSION,        /* Provided by redis.h */
+    "0.4",                /* Version of this module (only for reporting) */
+    "sh.matt.hmsetnx",    /* Unique name of this module */
+    load,                 /* Load function pointer (optional) */
+    cleanup               /* Cleanup function pointer (optional) */
 };
 
 struct redisCommand redisCommandTable[] = {
-    {"hmsetnx",hmsetnxCommand,-4,"wm",0,NULL,1,1,1,0,0},
-    {0}  /* Always end your command table with {0}
-          * If you forget, you will be reminded with a segfault on load. */
+    {"hmsetnx", hmsetnxCommand, -4, "wm", 0, NULL, 1, 1, 1, 0, 0},
+    {0} /* Always end your command table with {0}
+         * If you forget, you will be reminded with a segfault on load. */
 };

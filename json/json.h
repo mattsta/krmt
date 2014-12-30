@@ -26,12 +26,12 @@
 
 /* Inbound type detectors for avoiding unnecessary recursive parsing */
 #define ONLY_STRINGS(_obj)                                                     \
-    ((_obj)->content.obj.homogeneous &&((_obj)->content.obj.subtype ==         \
-                                        JSON_TYPE_STRING))
+    ((_obj)->content.obj.homogeneous &&                                        \
+     ((_obj)->content.obj.subtype == JSON_TYPE_STRING))
 
 #define ONLY_NUMBERS(_obj)                                                     \
-    ((_obj)->content.obj.homogeneous &&((_obj)->content.obj.subtype ==         \
-                                        JSON_TYPE_NUMBER_AS_STRING))
+    ((_obj)->content.obj.homogeneous &&                                        \
+     ((_obj)->content.obj.subtype == JSON_TYPE_NUMBER_AS_STRING))
 
 /* Global things for json module */
 struct global {
@@ -55,7 +55,7 @@ void clearClient(redisClient *c);
 /* Converts byte to an ASCII string of ones and zeroes */
 /* 'bb' is easy to type and stands for "byte (to) binary (string)" */
 static const char *bb(unsigned char x) {
-    static char b[9] = { 0 };
+    static char b[9] = {0};
 
     b[0] = x & 0x80 ? '1' : '0';
     b[1] = x & 0x40 ? '1' : '0';

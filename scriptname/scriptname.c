@@ -10,7 +10,7 @@
 
 /* Global things for this module */
 struct global {
-    dict *names;       /* Map of name -> SHA */
+    dict *names; /* Map of name -> SHA */
     struct err {
         robj *nosha, *noname;
     } err;
@@ -34,12 +34,12 @@ static void *dictSdsDup(void *privdata, const void *string) {
 /* Note how we assign every dup and free pointer so we don't
  * have to manually create or free objects we put in the dict. */
 static dictType namesTableDictType = {
-    dictSdsCaseHash,           /* hash function */
-    dictSdsDup,                /* key dup */
-    dictSdsDup,                /* val dup */
-    dictSdsKeyCompare,         /* key compare */
-    dictSdsDestructor,         /* key destructor */
-    dictSdsDestructor          /* val destructor */
+    dictSdsCaseHash,   /* hash function */
+    dictSdsDup,        /* key dup */
+    dictSdsDup,        /* val dup */
+    dictSdsKeyCompare, /* key compare */
+    dictSdsDestructor, /* key destructor */
+    dictSdsDestructor  /* val destructor */
 };
 
 /* ====================================================================
@@ -56,7 +56,7 @@ void scriptNameCommand(redisClient *c) {
         sds target_sha = c->argv[3]->ptr;
 
         if (sdslen(target_sha) != 40 ||
-            dictFind(server.lua_scripts,target_sha) == NULL) {
+            dictFind(server.lua_scripts, target_sha) == NULL) {
             addReply(c, g.err.nosha);
             return;
         }
@@ -136,18 +136,19 @@ void evalName(redisClient *c, char *name) {
     evalGenericCommand(c, 1);
 }
 
-void evalNameCommand(redisClient *c) {
-    evalName(c, c->argv[1]->ptr);
-}
+void evalNameCommand(redisClient *c) { evalName(c, c->argv[1]->ptr); }
 
 /* ====================================================================
  * Bring up / Teardown
  * ==================================================================== */
 void *load() {
     g.names = dictCreate(&namesTableDictType, NULL);
-    g.err.nosha = createObject(REDIS_STRING,sdsnew(
-            "-NOSCRIPT Target SHA not found. Please use SCRIPT LOAD.\r\n"));
-    g.err.noname = createObject(REDIS_STRING,sdsnew(
+    g.err.nosha = createObject(
+        REDIS_STRING,
+        sdsnew("-NOSCRIPT Target SHA not found. Please use SCRIPT LOAD.\r\n"));
+    g.err.noname = createObject(
+        REDIS_STRING,
+        sdsnew(
             "-NONAME Script name not found. Please use SCRIPTNAME SET.\r\n"));
     return NULL;
 }
@@ -165,22 +166,22 @@ void cleanup(void *privdata) {
  * Dynamic Redis API Requirements
  * ==================================================================== */
 struct redisModule redisModuleDetail = {
-   REDIS_MODULE_COMMAND, /* Tell Dynamic Redis our module provides commands */
-   REDIS_VERSION,        /* Provided by redis.h */
-   "0.3",                /* Version of this module (only for reporting) */
-   "sh.matt.scriptName", /* Unique name of this module */
-   load,                 /* Load function pointer (optional) */
-   cleanup               /* Cleanup function pointer (optional) */
+    REDIS_MODULE_COMMAND, /* Tell Dynamic Redis our module provides commands */
+    REDIS_VERSION,        /* Provided by redis.h */
+    "0.3",                /* Version of this module (only for reporting) */
+    "sh.matt.scriptName", /* Unique name of this module */
+    load,                 /* Load function pointer (optional) */
+    cleanup               /* Cleanup function pointer (optional) */
 };
 
 struct redisCommand redisCommandTable[] = {
-    {"scriptName",scriptNameCommand,-2,"s",0,NULL,0,0,0,0,0},
+    {"scriptName", scriptNameCommand, -2, "s", 0, NULL, 0, 0, 0, 0, 0},
 #if DYN_FEATURE_CLUSTER == false
-    {"evalName",evalNameCommand,-3,"s",0,NULL,0,0,0,0,0},
+    {"evalName", evalNameCommand, -3, "s", 0, NULL, 0, 0, 0, 0, 0},
 #else
     /* evalGetKeys exists for Cluster in redis-unstable */
-    {"evalName",evalNameCommand,-3,"s",0,evalGetKeys,0,0,0,0,0},
+    {"evalName", evalNameCommand, -3, "s", 0, evalGetKeys, 0, 0, 0, 0, 0},
 #endif
-    {0}  /* Always end your command table with {0}
-          * If you forget, you will be reminded with a segfault on load. */
+    {0} /* Always end your command table with {0}
+         * If you forget, you will be reminded with a segfault on load. */
 };

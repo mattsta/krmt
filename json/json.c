@@ -29,7 +29,7 @@
  *   - jsonfieldrpop - remove and return the last element of a list
  * ==================================================================== */
 
-struct global g = { 0 };
+struct global g = {0};
 
 /* ====================================================================
  * Redis Internal Client Management
@@ -76,13 +76,13 @@ sds fakeClientResultBuffer(redisClient *c) {
         reply = c->buf;
         c->bufpos = 0;
     } else {
-        reply = sdsnewlen(c->buf,c->bufpos);
+        reply = sdsnewlen(c->buf, c->bufpos);
         c->bufpos = 0;
-        while(listLength(c->reply)) {
+        while (listLength(c->reply)) {
             robj *o = listNodeValue(listFirst(c->reply));
 
-            reply = sdscatlen(reply,o->ptr,sdslen(o->ptr));
-            listDelNode(c->reply,listFirst(c->reply));
+            reply = sdscatlen(reply, o->ptr, sdslen(o->ptr));
+            listDelNode(c->reply, listFirst(c->reply));
         }
     }
 
@@ -649,27 +649,26 @@ struct redisModule redisModuleDetail = {
 };
 
 struct redisCommand redisCommandTable[] = {
-    { "hgetalljson", hgetalljsonCommand, -2, "r", 0, NULL, 0, 0, 0, 0, 0 },
-    { "jsonwrap", jsonwrapCommand, -2, "r", 0, NULL, 0, 0, 0, 0, 0 },
-    { "jsondocvalidate", jsondocvalidateCommand, 2, "r", 0, NULL, 0, 0, 0, 0,
-      0 },
-    { "jsondocset", jsondocsetCommand, -3, "r", 0, NULL, 0, 0, 0, 0, 0 },
-    { "jsondocget", jsondocgetCommand, 2, "r", 0, NULL, 0, 0, 0, 0, 0 },
-    { "jsondocmget", jsondocmgetCommand, -2, "r", 0, NULL, 0, 0, 0, 0, 0 },
-    { "jsondocdel", jsondocdelCommand, -2, "r", 0, NULL, 0, 0, 0, 0, 0 },
-    { "jsondocsetbyjson", jsondocsetbyjsonCommand, -2, "r", 0, NULL, 0, 0, 0, 0,
-      0 },
-    { "jsondockeys", jsondockeysCommand, -2, "r", 0, NULL, 0, 0, 0, 0, 0 },
-    { "jsonfieldget", jsonfieldgetCommand, -3, "r", 0, NULL, 0, 0, 0, 0, 0 },
-    { "jsonfieldset", jsonfieldsetCommand, 3, "r", 0, NULL, 0, 0, 0, 0, 0 },
-    { "jsonfielddel", jsonfielddelCommand, -2, "r", 0, NULL, 0, 0, 0, 0, 0 },
-    { "jsonfieldincrby", jsonfieldincrbyCommand, -3, "r", 0, NULL, 0, 0, 0, 0,
-      0 },
-    { "jsonfieldincrbyfloat", jsonfieldincrbyfloatCommand, -3, "r", 0, NULL, 0,
-      0, 0, 0, 0 },
-    { "jsonfieldrpushx", jsonfieldrpushxCommand, -4, "r", 0, NULL, 0, 0, 0, 0,
-      0 },
-    { "jsonfieldrpop", jsonfieldrpopCommand, -3, "r", 0, NULL, 0, 0, 0, 0, 0 },
-    { 0 } /* Always end your command table with {0}
-           * If you forget, you will be reminded with a segfault on load. */
+    {"hgetalljson", hgetalljsonCommand, -2, "r", 0, NULL, 0, 0, 0, 0, 0},
+    {"jsonwrap", jsonwrapCommand, -2, "r", 0, NULL, 0, 0, 0, 0, 0},
+    {"jsondocvalidate", jsondocvalidateCommand, 2, "r", 0, NULL, 0, 0, 0, 0, 0},
+    {"jsondocset", jsondocsetCommand, -3, "r", 0, NULL, 0, 0, 0, 0, 0},
+    {"jsondocget", jsondocgetCommand, 2, "r", 0, NULL, 0, 0, 0, 0, 0},
+    {"jsondocmget", jsondocmgetCommand, -2, "r", 0, NULL, 0, 0, 0, 0, 0},
+    {"jsondocdel", jsondocdelCommand, -2, "r", 0, NULL, 0, 0, 0, 0, 0},
+    {"jsondocsetbyjson", jsondocsetbyjsonCommand, -2, "r", 0, NULL, 0, 0, 0, 0,
+     0},
+    {"jsondockeys", jsondockeysCommand, -2, "r", 0, NULL, 0, 0, 0, 0, 0},
+    {"jsonfieldget", jsonfieldgetCommand, -3, "r", 0, NULL, 0, 0, 0, 0, 0},
+    {"jsonfieldset", jsonfieldsetCommand, 3, "r", 0, NULL, 0, 0, 0, 0, 0},
+    {"jsonfielddel", jsonfielddelCommand, -2, "r", 0, NULL, 0, 0, 0, 0, 0},
+    {"jsonfieldincrby", jsonfieldincrbyCommand, -3, "r", 0, NULL, 0, 0, 0, 0,
+     0},
+    {"jsonfieldincrbyfloat", jsonfieldincrbyfloatCommand, -3, "r", 0, NULL, 0,
+     0, 0, 0, 0},
+    {"jsonfieldrpushx", jsonfieldrpushxCommand, -4, "r", 0, NULL, 0, 0, 0, 0,
+     0},
+    {"jsonfieldrpop", jsonfieldrpopCommand, -3, "r", 0, NULL, 0, 0, 0, 0, 0},
+    {0} /* Always end your command table with {0}
+         * If you forget, you will be reminded with a segfault on load. */
 };

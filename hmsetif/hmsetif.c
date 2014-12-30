@@ -13,19 +13,20 @@
 /* HSETCK myhash checkkey checkval setkey setval */
 void hmsetifCommand(redisClient *c) {
     if ((c->argc % 2) == 1) {
-        addReplyError(c,"wrong number of arguments for HMSETIF");
+        addReplyError(c, "wrong number of arguments for HMSETIF");
         return;
     }
 
     robj *o;
-    if ((o = hashTypeLookupWriteOrCreate(c,c->argv[1])) == NULL) return;
+    if ((o = hashTypeLookupWriteOrCreate(c, c->argv[1])) == NULL)
+        return;
 
     if (!hashTypeExists(o, c->argv[2])) {
         addReply(c, shared.czero);
         return;
     }
 
-    robj *testobj = hashTypeGetObject(o,c->argv[2]);
+    robj *testobj = hashTypeGetObject(o, c->argv[2]);
     if (!equalStringObjects(testobj, c->argv[3])) {
         addReply(c, shared.czero);
         decrRefCount(testobj);
@@ -40,8 +41,8 @@ void hmsetifCommand(redisClient *c) {
      * move the last setkey/setval into the position of checkkey/checkval. */
     decrRefCount(c->argv[2]);
     decrRefCount(c->argv[3]);
-    c->argv[2] = c->argv[c->argc-2];
-    c->argv[3] = c->argv[c->argc-1];
+    c->argv[2] = c->argv[c->argc - 2];
+    c->argv[3] = c->argv[c->argc - 1];
     c->argc -= 2;
     hmsetCommand(c);
 }
@@ -49,14 +50,11 @@ void hmsetifCommand(redisClient *c) {
 /* ====================================================================
  * Bring up / Teardown
  * ==================================================================== */
-void *load() {
-    return NULL;
-}
+void *load() { return NULL; }
 
 /* If you reload the module *without* freeing things you allocate in load(),
  * then you *will* introduce memory leaks. */
-void cleanup(void *privdata) {
-}
+void cleanup(void *privdata) {}
 
 /* ====================================================================
  * Dynamic Redis API Requirements
@@ -71,7 +69,7 @@ struct redisModule redisModuleDetail = {
 };
 
 struct redisCommand redisCommandTable[] = {
-    {"hmsetif",hmsetifCommand,-6,"wm",0,NULL,1,1,1,0,0},
-    { 0 } /* Always end your command table with {0}
-           * If you forget, you will be reminded with a segfault on load. */
+    {"hmsetif", hmsetifCommand, -6, "wm", 0, NULL, 1, 1, 1, 0, 0},
+    {0} /* Always end your command table with {0}
+         * If you forget, you will be reminded with a segfault on load. */
 };

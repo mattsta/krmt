@@ -155,17 +155,17 @@ static int redis_parse_end_array(void *ctx) {
 /* ====================================================================
  * yajl parsing callback collection
  * ==================================================================== */
-static yajl_callbacks callbacks = { .yajl_null = redis_parse_null,
-                                    .yajl_boolean = redis_parse_boolean,
-                                    .yajl_integer = NULL,
-                                    .yajl_double = NULL,
-                                    .yajl_number = redis_parse_number,
-                                    .yajl_string = redis_parse_string,
-                                    .yajl_start_map = redis_parse_start_map,
-                                    .yajl_map_key = redis_parse_map_key,
-                                    .yajl_end_map = redis_parse_end_map,
-                                    .yajl_start_array = redis_parse_start_array,
-                                    .yajl_end_array = redis_parse_end_array };
+static yajl_callbacks callbacks = {.yajl_null = redis_parse_null,
+                                   .yajl_boolean = redis_parse_boolean,
+                                   .yajl_integer = NULL,
+                                   .yajl_double = NULL,
+                                   .yajl_number = redis_parse_number,
+                                   .yajl_string = redis_parse_string,
+                                   .yajl_start_map = redis_parse_start_map,
+                                   .yajl_map_key = redis_parse_map_key,
+                                   .yajl_end_map = redis_parse_end_map,
+                                   .yajl_start_array = redis_parse_start_array,
+                                   .yajl_end_array = redis_parse_end_array};
 
 /* ====================================================================
  * Redis generators
@@ -177,7 +177,7 @@ static int redis_gen_sds(void *ctx, const sds string) {
 }
 
 static int redis_gen_double(void *ctx, const double number) {
-    char numbuf[128] = { 0 };
+    char numbuf[128] = {0};
     int sz = snprintf(numbuf, 128, "%f", number);
     yajl_gen g = (yajl_gen)ctx;
     GEN_AND_RETURN(yajl_gen_number(g, numbuf, sz));
@@ -263,8 +263,7 @@ static void *yzrealloc(void *ctx, void *ptr, size_t sz) {
 }
 
 yajl_alloc_funcs allocFuncs = {
-    .malloc = yzmalloc, .free = yzfree, .realloc = yzrealloc, .ctx = NULL
-};
+    .malloc = yzmalloc, .free = yzfree, .realloc = yzrealloc, .ctx = NULL};
 
 static yajl_handle setupParser(void *ctx) {
     yajl_handle hand = yajl_alloc(&callbacks, &allocFuncs, ctx);

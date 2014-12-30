@@ -47,7 +47,7 @@
 #define R_MAJOR 6378137.0
 #define R_MINOR 6356752.3142
 #define RATIO (R_MINOR / R_MAJOR)
-#define ECCENT (sqrt(1.0 - (RATIO *RATIO)))
+#define ECCENT (sqrt(1.0 - (RATIO * RATIO)))
 #define COM (0.5 * ECCENT)
 
 /// @brief The usual PI/180 constant
@@ -153,10 +153,10 @@ bool geohashBoundingBox(double latitude, double longitude, double radius_meters,
 GeoHashRadius geohashGetAreasByRadius(uint8_t coord_type, double latitude,
                                       double longitude, double radius_meters) {
     GeoHashRange lat_range, long_range;
-    GeoHashRadius radius = { { 0 } };
-    GeoHashBits hash = { 0 };
-    GeoHashNeighbors neighbors = { { 0 } };
-    GeoHashArea area = { { 0 } };
+    GeoHashRadius radius = {{0}};
+    GeoHashBits hash = {0};
+    GeoHashNeighbors neighbors = {{0}};
+    GeoHashArea area = {{0}};
     double delta_longitude, delta_latitude;
     double min_lat, max_lat, min_lon, max_lon;
     int steps;

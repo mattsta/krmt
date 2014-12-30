@@ -73,10 +73,10 @@ bool geohashGetCoordRange(uint8_t coord_type, GeoHashRange *lat_range,
  * From:  https://graphics.stanford.edu/~seander/bithacks.html#InterleaveBMN
  */
 static inline uint64_t interleave64(uint32_t xlo, uint32_t ylo) {
-    static const uint64_t B[] = { 0x5555555555555555, 0x3333333333333333,
-                                  0x0F0F0F0F0F0F0F0F, 0x00FF00FF00FF00FF,
-                                  0x0000FFFF0000FFFF };
-    static const unsigned int S[] = { 1, 2, 4, 8, 16 };
+    static const uint64_t B[] = {0x5555555555555555, 0x3333333333333333,
+                                 0x0F0F0F0F0F0F0F0F, 0x00FF00FF00FF00FF,
+                                 0x0000FFFF0000FFFF};
+    static const unsigned int S[] = {1, 2, 4, 8, 16};
 
     uint64_t x = xlo;
     uint64_t y = ylo;
@@ -103,10 +103,10 @@ static inline uint64_t interleave64(uint32_t xlo, uint32_t ylo) {
  * derived from http://stackoverflow.com/questions/4909263
  */
 static inline uint64_t deinterleave64(uint64_t interleaved) {
-    static const uint64_t B[] = { 0x5555555555555555, 0x3333333333333333,
-                                  0x0F0F0F0F0F0F0F0F, 0x00FF00FF00FF00FF,
-                                  0x0000FFFF0000FFFF, 0x00000000FFFFFFFF };
-    static const unsigned int S[] = { 0, 1, 2, 4, 8, 16 };
+    static const uint64_t B[] = {0x5555555555555555, 0x3333333333333333,
+                                 0x0F0F0F0F0F0F0F0F, 0x00FF00FF00FF00FF,
+                                 0x0000FFFF0000FFFF, 0x00000000FFFFFFFF};
+    static const unsigned int S[] = {0, 1, 2, 4, 8, 16};
 
     uint64_t x = interleaved;
     uint64_t y = interleaved >> 1;
@@ -166,7 +166,7 @@ bool geohashEncode(GeoHashRange lat_range, GeoHashRange long_range,
 
 bool geohashEncodeType(uint8_t coord_type, double latitude, double longitude,
                        uint8_t step, GeoHashBits *hash) {
-    GeoHashRange r[2] = { { 0 } };
+    GeoHashRange r[2] = {{0}};
     geohashGetCoordRange(coord_type, &r[0], &r[1]);
     return geohashEncode(r[0], r[1], latitude, longitude, step, hash);
 }
@@ -217,7 +217,7 @@ bool geohashDecode(const GeoHashRange lat_range, const GeoHashRange long_range,
 
 bool geohashDecodeType(uint8_t coord_type, const GeoHashBits hash,
                        GeoHashArea *area) {
-    GeoHashRange r[2] = { { 0 } };
+    GeoHashRange r[2] = {{0}};
     geohashGetCoordRange(coord_type, &r[0], &r[1]);
     return geohashDecode(r[0], r[1], hash, area);
 }
@@ -246,7 +246,7 @@ bool geohashDecodeAreaToLatLong(const GeoHashArea *area, double *latlong) {
 
 bool geohashDecodeToLatLongType(uint8_t coord_type, const GeoHashBits hash,
                                 double *latlong) {
-    GeoHashArea area = { { 0 } };
+    GeoHashArea area = {{0}};
     if (!latlong || !geohashDecodeType(coord_type, hash, &area))
         return false;
     return geohashDecodeAreaToLatLong(&area, latlong);

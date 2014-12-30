@@ -210,7 +210,7 @@ static int hgetallRecursivelyDeleteJsonObj(sds key, int decode_as) {
     redisClient *fake_client = g.c;
 
     fake_client->argc = 2;
-    robj *argv[2] = { 0 };
+    robj *argv[2] = {0};
 
     D("Access key for read: [%s] (potential box: [%s])\n", key, bb(key[0]));
     robj *proper_key = dbstr(key);

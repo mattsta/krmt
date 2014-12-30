@@ -42,12 +42,12 @@ static struct jsonObj *jsonObjCreateMapFromBuffer(char *buf,
          * return map. */
         if (buf[0] == '*') {
             /* Jump over count and CRLF of count up to next '$' */
-            int sz = strtol(buf+1, &next, 10);
+            int sz = strtol(buf + 1, &next, 10);
             buf = next + SZ_CRLF;
             /* We need to iterate over more elements, so increase elements to
              * compensate.  (Note, we already have "1" for this run, so add
              * (sz - 1) to elements. */
-            buffer_elements += sz-1;
+            buffer_elements += sz - 1;
         }
 
         if (buf[0] != '$')
@@ -151,7 +151,7 @@ static struct jsonObj *hgetallToJsonObj(sds key, int decode_as) {
     redisClient *fake_client = g.c;
 
     fake_client->argc = 2;
-    robj *argv[2] = { 0 };
+    robj *argv[2] = {0};
 
     robj *proper_key = dbstr(key);
     argv[1] = proper_key;
@@ -177,7 +177,7 @@ struct jsonObj *hgetToJsonObj(sds key, int decode_as, sds field) {
     redisClient *fake_client = g.c;
 
     fake_client->argc = 3;
-    robj *argv[3] = { 0 };
+    robj *argv[3] = {0};
 
     D("Reading key: [%s] with field: [%s]\n", key, field);
     robj *proper_key = dbstr(key);
@@ -637,7 +637,7 @@ static struct jsonObj *localrpop(sds key, int decode_as) {
     robj *lookup_key = dbstr(key);
     long len = jsonListLength(lookup_key);
 
-    robj *argv[2] = { 0 };
+    robj *argv[2] = {0};
     argv[1] = lookup_key;
     c->argc = 2;
     c->argv = argv;
