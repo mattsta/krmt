@@ -58,8 +58,12 @@ const double EARTH_RADIUS_IN_METERS = 6372797.560856;
 const double MERCATOR_MAX = 20037726.37;
 const double MERCATOR_MIN = -20037726.37;
 
-static inline double deg_rad(double ang) { return ang * D_R; }
-static inline double rad_deg(double ang) { return ang / D_R; }
+static inline double deg_rad(double ang) {
+    return ang * D_R;
+}
+static inline double rad_deg(double ang) {
+    return ang / D_R;
+}
 
 double mercator_y(double lat) {
     lat = fmin(89.5, fmax(lat, -89.5));
@@ -71,8 +75,12 @@ double mercator_y(double lat) {
     return 0 - R_MAJOR * log(ts);
 }
 
-double mercator_x(double lon) { return R_MAJOR * deg_rad(lon); }
-double merc_lon(double x) { return rad_deg(x) / R_MAJOR; }
+double mercator_x(double lon) {
+    return R_MAJOR * deg_rad(lon);
+}
+double merc_lon(double x) {
+    return rad_deg(x) / R_MAJOR;
+}
 
 double merc_lat(double y) {
     double ts = exp(-y / R_MAJOR);
@@ -102,8 +110,12 @@ uint8_t geohashEstimateStepsByRadius(double range_meters) {
     return step > 26 ? 26 : step;
 }
 
-double geohashGetXWGS84(double x) { return merc_lon(x); }
-double geohashGetYWGS84(double y) { return merc_lat(y); }
+double geohashGetXWGS84(double x) {
+    return merc_lon(x);
+}
+double geohashGetYWGS84(double y) {
+    return merc_lat(y);
+}
 
 double geohashGetXMercator(double longtitude) {
     if (longtitude > 180 || longtitude < -180) {

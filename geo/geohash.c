@@ -184,7 +184,6 @@ bool geohashEncodeMercator(double latitude, double longitude, uint8_t step,
 
 bool geohashDecode(const GeoHashRange lat_range, const GeoHashRange long_range,
                    const GeoHashBits hash, GeoHashArea *area) {
-
     if (HASHISZERO(hash) || NULL == area || RANGEISZERO(lat_range) ||
         RANGEISZERO(long_range)) {
         return false;

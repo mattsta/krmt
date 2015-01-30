@@ -46,8 +46,12 @@ static void jsonSyncClients(redisClient *c) {
     g.c_noreturn->db = g.c->db = c->db;
 }
 
-robj *dbstrTake(sds id) { return createObject(REDIS_STRING, id); }
-robj *dbstr(sds id) { return dbstrTake(sdsdup(id)); }
+robj *dbstrTake(sds id) {
+    return createObject(REDIS_STRING, id);
+}
+robj *dbstr(sds id) {
+    return dbstrTake(sdsdup(id));
+}
 
 void clearClient(redisClient *c) {
     /* can't auto-free argv here because some argv are just

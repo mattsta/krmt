@@ -50,11 +50,14 @@ void hmsetifCommand(redisClient *c) {
 /* ====================================================================
  * Bring up / Teardown
  * ==================================================================== */
-void *load() { return NULL; }
+void *load() {
+    return NULL;
+}
 
 /* If you reload the module *without* freeing things you allocate in load(),
  * then you *will* introduce memory leaks. */
-void cleanup(void *privdata) {}
+void cleanup(void *privdata) {
+}
 
 /* ====================================================================
  * Dynamic Redis API Requirements

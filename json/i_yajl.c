@@ -254,9 +254,13 @@ static void encodeJsonObj(yajl_gen g, struct jsonObj *f) {
 /* ====================================================================
  * Interface Helpers
  * ==================================================================== */
-static void *yzmalloc(void *ctx, size_t sz) { return zmalloc(sz); }
+static void *yzmalloc(void *ctx, size_t sz) {
+    return zmalloc(sz);
+}
 
-static void yzfree(void *ctx, void *ptr) { zfree(ptr); }
+static void yzfree(void *ctx, void *ptr) {
+    zfree(ptr);
+}
 
 static void *yzrealloc(void *ctx, void *ptr, size_t sz) {
     return zrealloc(ptr, sz);
@@ -273,7 +277,9 @@ static yajl_handle setupParser(void *ctx) {
     return hand;
 }
 
-static void cleanupParser(yajl_handle hand) { yajl_free(hand); }
+static void cleanupParser(yajl_handle hand) {
+    yajl_free(hand);
+}
 
 static yajl_gen setupEncoder() {
     yajl_gen g = yajl_gen_alloc(&allocFuncs);
@@ -281,7 +287,9 @@ static yajl_gen setupEncoder() {
     return g;
 }
 
-static void cleanupEncoder(yajl_gen g) { yajl_gen_free(g); }
+static void cleanupEncoder(yajl_gen g) {
+    yajl_gen_free(g);
+}
 
 static sds encodedJson(yajl_gen g) {
     const unsigned char *json_encoded;

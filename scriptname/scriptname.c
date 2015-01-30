@@ -136,7 +136,9 @@ void evalName(redisClient *c, char *name) {
     evalGenericCommand(c, 1);
 }
 
-void evalNameCommand(redisClient *c) { evalName(c, c->argv[1]->ptr); }
+void evalNameCommand(redisClient *c) {
+    evalName(c, c->argv[1]->ptr);
+}
 
 /* ====================================================================
  * Bring up / Teardown

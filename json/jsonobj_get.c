@@ -262,7 +262,9 @@ static struct jsonObj *hgetToJsonObjFindHash(sds key, sds field) {
 }
 
 /* Wrapper to call the JSON encoder */
-static sds jsonObjToJson(struct jsonObj *f) { return yajl_encode(f); }
+static sds jsonObjToJson(struct jsonObj *f) {
+    return yajl_encode(f);
+}
 
 /* Very basic HGETALL to JSON converter */
 void hgetallToJsonAndAndReply(redisClient *c, sds key) {
