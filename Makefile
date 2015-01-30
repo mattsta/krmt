@@ -92,7 +92,8 @@ geo.so: $(wildcard %/*.c)
 	$(QUIET_CC) $(CC) $(FINAL_CFLAGS) -I./$(DIRNAME)/ -o geo-test $(DIRNAME)/geohash.c $(DIRNAME)/test.c
 
 json.so: $(wildcard %/*.c)
-	$(QUIET_CC) $(CC) $(SHARED_FLAGS) $(FINAL_CFLAGS) -I$(YAJL_I) -I./$(DIRNAME)/ -o $@ $(wildcard $(DIRNAME)/*.c) $(wildcard $(YAJL_S)/*.c) $(IMPORT)
+	@echo "Note: JSON module ONLY works on 2.8 branches (DO NOT use JSON module with 3.0 or unstable branches)."
+	$(QUIET_CC) $(CC) $(SHARED_FLAGS) $(FINAL_CFLAGS) -I$(YAJL_I) -I./$(DIRNAME)/ -o $@ $(wildcard $(DIRNAME)/*.c) $(wildcard $(YAJL_S)/*.c) $(IMPORT) -lm
 
 clean:
 	$(QUIET_CLEAN) rm -rf $(OBJ) $(OBJ_D)
