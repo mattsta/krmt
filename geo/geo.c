@@ -524,7 +524,7 @@ static void geoRadiusGeneric(redisClient *c, int type) {
      */
     listIter li;
     listRewind(found_matches, &li);
-    struct geojsonPoint gp[result_length];
+    struct geojsonPoint *gp = zmalloc(sizeof(*gp) * result_length);
     /* populate gp array from our results */
     for (int i = 0; i < result_length; i++) {
         struct zipresult *zr = listNodeValue(listNext(&li));
@@ -594,6 +594,7 @@ static void geoRadiusGeneric(redisClient *c, int type) {
         for (int i = 0; i < result_length; i++)
             sdsfree(gp[i].member);
 
+    zfree(gp);
     listRelease(found_matches);
 }
 
