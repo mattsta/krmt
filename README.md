@@ -14,6 +14,11 @@ your own your own loadable Redis modules.
 [Dynamic Redis](https://matt.sh/dynamic-redis) server if you
 want to use modules.  Regular Redis doesn't know about modules.
 
+@skidder maintains a [deployable](https://registry.hub.docker.com/u/urlgrey/dynamic-redis/)
+[dockerfile](https://github.com/urlgrey/docker-dynamic-redis) based on the current [development
+branch](https://registry.hub.docker.com/u/urlgrey/dynamic-redis/dockerfile/)
+of [dynamic-redis-unstable](https://github.com/mattsta/redis/commits/dynamic-redis-unstable).
+
 Disclaimers:
 
   - Redis is single threaded for all command processing.
